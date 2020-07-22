@@ -1,0 +1,15 @@
+             PGM                                                            
+             DCL        VAR(&VAR1) TYPE(*DEC) LEN(3 0) VALUE(5)             
+             DCL        VAR(&VAR2) TYPE(*DEC) LEN(2 0) VALUE(3)             
+             DCL        VAR(&CHAR) TYPE(*CHAR) LEN(8)                       
+                                                                            
+             SNDPGMMSG  MSG('Hi this is a test message from a CL pgm')      
+                                                                            
+             IF  (&VAR1 *GT &VAR2) DO                                       
+             SNDPGMMSG  MSG('Number 1 is bigger')                           
+             ENDDO                                                          
+             ELSE  DO                                                       
+             SNDPGMMSG  MSG('Number 2 is bigger')                           
+             ENDDO                                                          
+                                                                            
+             ENDPGM                                                         
