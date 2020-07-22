@@ -1,7 +1,7 @@
      A                                      DSPSIZ(24 80 *DS3)                      
      A          R CUSSFL01                  SFL                                     
      A            DFCNTRY   R        O 10  5REFFLD(DDACMSR/DFCNTRY *LIBL/DDACMS-    
-     A                                      P)                                      
+     A                                      P)                                       
      A                                      COLOR(WHT)                              
      A            DFGMAB    R        O 10  9REFFLD(DDACMSR/DFGMAB *LIBL/DDACMSP)    
      A                                      COLOR(WHT)                              
