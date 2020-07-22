@@ -1,0 +1,4 @@
+             PGM                                                
+             WRKMBRPDM FILE(*PRV) MBR(*ALL) MBRTYPE(*ALL)       
+/*           WRKLIBPDM                                    */    
+             ENDPGM                                             
