@@ -1,0 +1,69 @@
+     H*DFTACTGRP(*NO)                                
+     FDSPCALC   CF   E             WORKSTN           
+     D                                               
+     DPROC_ADD         PR                            
+     DNUM1_                          10S 0           
+     DNUM2_                          10S 0           
+     DNUM_RETURN_                    15S 0           
+     D                                               
+     DPROC_SUBT        PR                            
+     DNUM1_                          10S 0           
+     DNUM2_                          10S 0           
+     DNUM_RETURN_                    15S 0           
+     D                                               
+     DPROC_MULT        PR                            
+     DNUM1_                          10S 0           
+     DNUM2_                          10S 0           
+     DNUM_RETURN_                    15S 0           
+     D                                               
+     DPROC_DEV         PR                            
+     DNUM1_                          10S 0         
+     DNUM2_                          10S 0         
+     DNUM_RETURN_                    15S 2         
+     D                                             
+     DNUM1             S             10S 0         
+     DNUM2             S             10S 0         
+     DNUM_RETURN       S             15S 0         
+     DNUM_RETURN1      S             15S 2         
+     D                                             
+     C                                             
+      /FREE                                        
+            DOW  *IN01 = *OFF;                     
+               EXFMT CALC_RCD;                     
+               IF *IN01 = *ON;                     
+                  LEAVE;                           
+               ELSEIF *IN05 = *ON;                 
+                  EXSR CLEARFIELDS;                
+               ENDIF;                              
+               SELECT;                             
+               WHEN S1OPCD = '+';                  
+                Num1 = S1INP1;                                  
+                Num2 = S1INP2;                                  
+                PROC_ADD(NUM1:NUM2:NUM_RETURN);                 
+                S1RESULT = NUM_RETURN;                          
+              WHEN S1OPCD = '-';                                
+                Num1 = S1INP1;                                  
+                Num2 = S1INP2;                                  
+                PROC_SUBT(NUM1:NUM2:NUM_RETURN);                
+                S1RESULT = NUM_RETURN;                          
+              WHEN S1OPCD = '*';                                
+                Num1 = S1INP1;                                  
+                Num2 = S1INP2;                                  
+                PROC_MULT(NUM1:NUM2:NUM_RETURN);                
+                S1RESULT = NUM_RETURN;                          
+              WHEN S1OPCD = '/';                                
+                Num1 = S1INP1;                                  
+                Num2 = S1INP2;                                  
+                PROC_DEV(NUM1:NUM2:NUM_RETURN1);                
+                S1RESULT = NUM_RETURN1;                         
+              OTHER;                                            
+              ENDSL;                      
+           ENDDO;                         
+           *INLR = *ON;                   
+     /END-FREE                            
+    C                                     
+     /FREE                                
+          BEGSR CLEARFIELDS;              
+                CLEAR *ALL CALC_RCD;      
+          ENDSR;                          
+    C                                     
