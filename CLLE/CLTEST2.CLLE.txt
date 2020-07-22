@@ -1,0 +1,26 @@
+             PGM                                                              
+             DCL        VAR(&VAR1) TYPE(*DEC) LEN(3 0) VALUE(5)               
+             DCL        VAR(&VAR2) TYPE(*DEC) LEN(2 0) VALUE(1)               
+             DCL        VAR(&COUNT) TYPE(*INT)                                
+             DCL        VAR(&CHAR) TYPE(*CHAR) LEN(8)                         
+                                                                              
+             SNDPGMMSG  MSG('Hi this is a test message from a CL pgm')        
+                                                                              
+             IF         COND(&VAR1 *GT &VAR2) THEN(DO)                        
+             SNDPGMMSG  MSG('Number 1 is bigger')                             
+             ENDDO                                                            
+             ELSE       CMD(DO)                                               
+             SNDPGMMSG  MSG('Number 2 is bigger')                             
+             ENDDO                                                            
+                                                                              
+             CHGVAR     VAR(&VAR1) VALUE(1)                                   
+             DOWHILE    COND(&VAR1 *LE 10) /* DOUNTIL is same as +            
+                          dowhile*/                                           
+             SNDPGMMSG  MSG('Hello from DOWHILE/DOUNTIL LOOP')                
+             CHGVAR     VAR(&VAR1) VALUE(&VAR1 +1)                          
+             ENDDO                                                          
+                                                                            
+             DOFOR      VAR(&COUNT) FROM(1) TO(20) BY(1) /* 'This is +      
+                          for loop' */                                      
+             SNDPGMMSG  MSG('Hello there from For loop')                    
+             ENDDO                                                          
