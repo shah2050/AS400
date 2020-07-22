@@ -1,0 +1,55 @@
+     H NOMAIN                                                      
+     F*                                                            
+     PPROC_ADD         B                   EXPORT                  
+     DPROC_ADD         PI            15S 0                         
+     D NUM1                          10S 0                         
+     D NUM2                          10S 0                         
+     D Num_Return                    15S 0                         
+                                                                   
+      /FREE                                                        
+           //ADD the input number and give the return value;       
+                                                                   
+                Num_Return = *ZEROS;                               
+                Num_Return = Num1 + Num2;                          
+                                                                   
+           Return Num_Return;                                      
+                                                                   
+      /END-FREE                                                    
+     PPROC_ADD         E                                           
+     PPROC_SUBT        B                   EXPORT                
+     D                 PI            15S 0                       
+     D Num1                          10S 0                       
+     D Num2                          10S 0                       
+     D Num_Return                    15S 0                       
+      /Free                                                      
+           Num_Return = *Zeros;                                  
+           If Num2 <> *Zeros;                                    
+              Num_Return = %ABS(Num1 - Num2);                    
+           Endif;                                                
+           Return Num_Return;                                    
+      /End-Free                                                  
+     P                 E                                         
+                                                                 
+     PPROC_MULT        B                   EXPORT                
+     D                 PI            15S 0                       
+     DNum1                           10S 0                       
+     DNum2                           10S 0                       
+     DNum_Return                     15S 0                       
+      /Free                                                      
+          Num_Return = Num1 * Num2;                              
+          Return Num_Return;                                     
+     /End-Free                                                   
+    P                 E                                          
+                                                                 
+    PPROC_Dev         B                   EXPORT                 
+    D                 PI            15S 2                        
+    D Num1                          10S 0                        
+    D Num2                          10S 0                        
+    D Num_Return                    15S 2                        
+     /Free                                                       
+         If Num2 <> *Zeros;                                      
+            Num_Return = Num1/Num2 ;                             
+         Endif;                                                  
+         Return Num_Return;                                      
+     /End-Free                                                   
+    p                 E                                          
