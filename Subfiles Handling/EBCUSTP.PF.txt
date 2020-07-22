@@ -1,0 +1,13 @@
+                                            UNIQUE                         
+     A          R EBCUSTR                                                  
+     A            PCMDFL         1A         COLHDG('MODE FLAG')            
+     A            PCPBN         10S 0       COLHDG('PBN')                  
+     A            PCNAME        30A         COLHDG('NAME')                 
+     A            PCCUSTTYP      3A         COLHDG('CUST TYPE')            
+     A            PCNAT          2A         COLHDG('NATIONALITY')          
+     A            PCLANG         1A         COLHDG('LANGUAGE')             
+     A            PCPIN          6S 0       COLHDG('PIN')                  
+     A            PCPHONE       10S 0       COLHDG('PHONE')                
+     A            PCCHARGE       3A         COLHDG('CHARGE TYPE')          
+     A            PCEXPAT        1A         COLHDG('EXPAT')                
+     A          K PCPBN                                                    
