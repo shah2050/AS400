@@ -1,0 +1,19 @@
+             PGM                                                        
+             DCL        VAR(&COUNT) TYPE(*DEC) LEN(3 0) VALUE(1)        
+             DCLF       FILE(TESTPF) OPNID(OP1)                         
+                                                                        
+             RCVF       OPNID(OP1) /* RCVF will only read one record +  
+                          at a time so read multiple record we need +   
+                          to put loop. */                               
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(END))           
+             SNDPGMMSG  MSG(&OP1_TNAME)                                 
+ END:                                                                   
+                                                                        
+             DOWHILE    COND(&COUNT *LE 10)                             
+             RCVF       OPNID(OP1)                                      
+             MONMSG     MSGID(CPF0864) EXEC(GOTO CMDLBL(END))           
+             SNDPGMMSG  MSG(&OP1_TNAME)                                 
+             CHGVAR     VAR(&COUNT) VALUE(&COUNT +1)                    
+             ENDDO                                                      
+                                                                        
+             ENDPGM
