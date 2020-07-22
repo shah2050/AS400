@@ -40,7 +40,7 @@
           Return Num_Return;                                     
      /End-Free                                                   
     P                 E                                          
-                                                                 
+     //                                                            
     PPROC_Dev         B                   EXPORT                 
     D                 PI            15S 2                        
     D Num1                          10S 0                        
