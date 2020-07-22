@@ -1,0 +1,12 @@
+                                            UNIQUE                      
+     A*                                                                 
+     A          R DDACMSR                                               
+     A            DFPBN         10S 0       COLHDG('PBN')               
+     A            DFCNTRY        2A         COLHDG('AC CNTRY')          
+     A            DFGMAB         4A         COLHDG('GROUP')             
+     A            DFACB          3S 0       COLHDG('ACC BRANCH')        
+     A            DFACS          6S 0       COLHDG('ACC SERIAL')        
+     A            DFACX          3S 0       COLHDG('ACC SUFFIX')        
+     A            DFACTYP        2A         COLHDG('PRODUCT TYPE')      
+     A            DFACNAME      15A         COLHDG('NAME')              
+     A          K DFPBN                                                 
