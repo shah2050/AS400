@@ -1,0 +1,61 @@
+     A                                      DSPSIZ(24 80 *DS3)                
+     A          R SFL01                     SFL                               
+     A            S1PBN         10S 0O 10 10                                  
+     A            S1NAME        30A  O 10 25                                  
+     A            S1INPUT        1   I 10  6                                  
+     A          R SFLCTL01                  SFLCTL(SFL01)                     
+     A                                      SFLSIZ(9999)                      
+     A                                      SFLPAG(0005)                      
+     A                                      CF01(01 'EXIT')                   
+     A                                      CF05(05 'REFRESH')                
+     A                                      OVERLAY                           
+     A  60                                  SFLDSP                            
+     A  50                                  SFLDSPCTL                         
+     A N50                                  SFLCLR                            
+     A  50                                  SFLEND(*MORE)                     
+     A                                  1  2DATE                                  
+     A                                      EDTCDE(Y)                             
+     A                                  1 14'Enq/Maintain Using Cursor'           
+     A                                  1 41USER                                  
+     A                                  9 10'PBN'                                 
+     A                                  9 25'NAME'                                
+     A                                  9  5'INP'                                 
+     A          R FOOTER                                                          
+     A                                 21  7'F1 - EXIT'                           
+     A                                 21 20'F5 - REFRESH'                        
+     A          R EDITREC                                                         
+     A                                      WINDOW(4 16 13 40)                    
+     A                                      CF01(01 'EXIT')                       
+     A                                  1 11'Edit EBCUSTP Rec'                    
+     A                                  3  2'PBN :'                               
+     A            S2PBN     R        O  3  8REFFLD(EBCUSTR/PCPBN *LIBL/EBCUSTP)   
+     A                                      COLOR(WHT)                            
+     A            S2NAME    R        B  4  8REFFLD(EBCUSTR/PCNAME *LIBL/EBCUSTP)  
+     A                                      COLOR(WHT)                            
+     A                                  5  2'Nationality:'                        
+     A            S2NAT     R        B  5 16REFFLD(EBCUSTR/PCNAT *LIBL/EBCUSTP)   
+     A                                      COLOR(WHT)                            
+     A                                  6  2'Cust Type:'                          
+     A            S2CUSTTYP R        B  6 14REFFLD(EBCUSTR/PCCUSTTYP *LIBL/EBCU-  
+     A                                      STP)                                  
+     A                                      COLOR(WHT)                            
+     A                                  7  2'Pincode:'                            
+     A            S2PIN     R        B  7 12REFFLD(EBCUSTR/PCPIN *LIBL/EBCUSTP)   
+     A                                      COLOR(WHT)                            
+     A                                  8  2'Language:'                           
+     A            S2LANG    R        B  8 13REFFLD(EBCUSTR/PCLANG *LIBL/EBCUSTP)  
+     A                                      COLOR(WHT)                            
+     A                                  9  2'Charge :'                            
+     A            S2CHARGE  R        B  9 12REFFLD(EBCUSTR/PCCHARGE *LIBL/EBCUS-  
+     A                                      TP)                                   
+     A                                      COLOR(WHT)                            
+     A                                 10  2'Phone:'                              
+     A            S2PHONE   R        B 10 10REFFLD(EBCUSTR/PCPHONE *LIBL/EBCUST-  
+     A                                      COLOR(WHT)                                      
+     A                                  8  2'Language:'                                     
+     A                                 11  2'Expat :'                                       
+     A            S2EXPAT   R        B 11 11REFFLD(EBCUSTR/PCEXPAT *LIBL/EBCUST-            
+     A                                      P)                                              
+     A                                      COLOR(WHT)                                      
+     A                                  4  2'Name:'                                         
+     A                                 12 30'F1 -EXIT'                                      
