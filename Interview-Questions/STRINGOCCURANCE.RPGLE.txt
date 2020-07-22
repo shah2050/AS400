@@ -2,7 +2,6 @@
      F                                                                                
      DSTRING           S             50A   INZ('THIS IS A TEST STRING TO FIND ')      
      DSTRING1          S             50A   INZ('THIS IS A TEST STRING TO FIND ')      
-     DFSTRING          S              1A   INZ(*BLANKS)                               
      DLEN1             S              5S 0                                            
      DLEN2             S              5S 0                                            
      DFND              S              5S 0                                            
