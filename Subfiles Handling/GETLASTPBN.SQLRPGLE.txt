@@ -1,0 +1,18 @@
+     H                                                                                
+     FEBCUSTP   IF   E           K DISK                                               
+     D W0PBN           S                   LIKE(PCPBN)                                
+     C                                                                                
+      /FREE                                                                           
+        EXEC  SQL                                                                     
+          SET OPTION                                                                  
+              COMMIT = *NONE;                                                         
+        EXEC  SQL                                                                     
+              SELECT (PCPBN +1) INTO:W0PBN FROM EBCUSTP ORDER BY PCPBN DESC           
+                     FETCH FIRST 1 ROWS ONLY;                                         
+        *INLR  = *ON;                                                                 
+      /END-FREE                                                                       
+     C                                                                                
+     C                                                                                
+     C     *ENTRY        PLIST                                                        
+     C                   PARM                    W0PBN                                
+     C                                                                                
