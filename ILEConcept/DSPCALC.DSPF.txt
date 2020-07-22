@@ -1,0 +1,24 @@
+     A*%%TS  SD  20200719  171043  SHAHALAM    REL-V7R4M0  5770-WDS      
+     A*%%EC                                                              
+     A                                      DSPSIZ(24 80 *DS3)           
+     A          R CALC_RCD                                               
+     A*%%TS  SD  20200719  171043  SHAHALAM    REL-V7R4M0  5770-WDS      
+     A                                      CF01(01 'Exit')              
+     A                                      CF05(05 'Refresh')           
+     A                                  1  2DATE                         
+     A                                      EDTCDE(Y)                    
+     A                                  1 18'Simple Calculator'          
+     A                                  1 38TIME                         
+     A                                  1 47USER                         
+     A                                  5  8'Enter First Number:'        
+     A            S1INP1        10  0I  5 32COLOR(WHT)                   
+     A                                  7  8'Opration Indicator:'        
+     A            S1OPCD         1   I  7 35COLOR(RED)                   
+     A                                  7 42'+,-,*,/'                    
+     A                                  9  8'Enter Second Number:'       
+     A            S1INP2        10  0I  9 32COLOR(WHT)                   
+    A                                 13 18'Result  :'                        
+    A            S1RESULT      15  2O 13 33COLOR(YLW)                         
+    A                                 21  8'F1 - Exit'                        
+    A                                 21 21'F5 - Refresh'                     
+    A            S1MSG         25   O 18 13COLOR(RED)                         
