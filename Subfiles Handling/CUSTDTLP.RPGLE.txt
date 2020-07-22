@@ -1,0 +1,156 @@
+     H*                                                                  
+     H                                                                   
+     FCUSDTLF   CF   E             WORKSTN                               
+     F                                     SFILE(CUSSFL01:RRN#)          
+     F                                     INFDS(infds)                  
+     FEBCUSTP   UF A E           K DISK                                  
+     FDDACMSP   UF A E           K DISK                                  
+     D*                                                                  
+     DRRN#             S             10S 0                               
+     DSETVAL           S             10S 0 INZ(1000000001)               
+     DW0PBN            S                   LIKE(PCPBN)                   
+     Dinfds            ds                                                
+     dF1EXIT                   1      1                                  
+     dF5REF                    5      5                                  
+     D                                                                   
+     DGETLASTPBN       PR                  EXTPGM('GETLASTPBN')          
+     D W0PBN                               LIKE(PCPBN)                   
+     C                                                                   
+      /Free   
+           DOW *IN01= *OFF;                               
+                                                          
+           //WRITE FOOTER;                                
+             EXFMT CUSMAIN;                               
+                                                          
+             SELECT;                                      
+             WHEN S1MNCD = 'A';                           
+             EXFMT ADDEBREC ;                             
+             EXSR ADDEBREC1;                              
+                IF S2INPUT = 'Y' AND *IN01 =*OFF;         
+                   EXSR ADDDDREC1;                        
+                ENDIF;                                    
+             WHEN S1MNCD = 'C';                           
+                IF S1PBN = 0;                             
+                  S1MSG = 'PBN IS MANDATORY';             
+                ELSE;                                     
+                  S1MSG = ' ';                            
+                EXFMT CHANGESR;                           
+                ENDIF;                                    
+             WHEN S1MNCD = 'D' AND S1PBN <> *ZEROS;       
+            //XFMT DELETESR;                                    
+             OTHER;                                             
+             ENDSL;                                             
+                                                                
+             IF (S1MNCD = *BLANKS AND S1PBN <> *ZEROS);         
+             Exsr ClearSFL;                                     
+             Exsr LoadSFL;                                      
+             WRITE FOOTER;                                      
+             EXFMT CUSCTL01;                                    
+             CLEAR *ALL CUSCTL01;                               
+             WRITE CUSCTL01;                                    
+             ENDIF;                                             
+                                                                
+             ENDDO;                                             
+                                                                
+           *INLR = *ON;                                         
+                                                                
+     /End-Free                                                  
+    C                                                           
+     /FREE                                                      
+         BEGSR LOADHEADER;                 
+              S1PBN = PCPBN;               
+              S1CUSTYP = PCCUSTTYP;        
+              S1NAT = PCNAT;               
+              S1LANG = PCLANG;             
+              S1PIN = PCPIN;               
+              S1PHONE = PCPHONE;           
+              S1CHARG = PCCHARGE;          
+              S1EXPAT = PCEXPAT;           
+         ENDSR;                            
+     /END-FREE                             
+                                           
+    C                                      
+     /Free                                 
+           Begsr LoadSFL;                  
+                 CHAIN S1PBN  EBCUSTR;     
+                 IF %FOUND(EBCUSTP);       
+                   EXSR LOADHEADER;        
+                   CHAIN S1PBN DDACMSR;    
+                   IF %FOUND(DDACMSP);     
+                    DOW NOT %EOF(DDACMSP);             
+                       RRN#  = RRN# + 1 ;              
+                       WRITE CUSSFL01;                 
+                       READE S1PBN DDACMSR;            
+                    ENDDO;                             
+                   ENDIF;                              
+                 ENDIF;                                
+           ENDSR;                                      
+     /End-Free                                         
+    C                                                  
+     /Free                                             
+           BEGSR ClearSFL;                             
+             *IN50 = *OFF;                             
+             WRITE CUSCTL01;                           
+             *IN50=*ON;                                
+             RRN# = 0;                                 
+           ENDSR;                                      
+     /End-Free                                         
+    C                                                  
+     /FREE                                             
+           BEGSR ADDEBREC1;                                     
+            IF S2NAME <> *BLANKS    AND S2CUSTYP <> *BLANK AND  
+               S2NAT <> *BLANKS ;                               
+                                                                
+                W0PBN = *ZEROS;                                 
+                                                                
+                GETLASTPBN(W0PBN);                              
+                                                                
+                PCPBN    =  W0PBN;                              
+                                                                
+                PCCUSTTYP=  S2CUSTYP;                           
+                PCNAT    =  S2NAT;                              
+                PCLANG   =  S2LANG;                             
+                PCPIN    =  S2PIN;                              
+                PCPHONE  =  S2PHONE;                            
+                PCCHARGE =  S2CHARG;                            
+                PCEXPAT  =  S2EXPAT;                            
+                                                                
+                IF *IN01 = *OFF;                                
+                WRITE EBCUSTR;                                  
+                ENDIF;                                    
+                                                          
+            ENDIF;                                        
+         ENDSR;                                           
+     /END-FREE                                            
+    C                                                     
+     /FREE                                                
+         BEGSR ADDDDREC1;                                 
+          IF  (W0PBN <> *ZEROS OR PCPBN <> *ZEROS)        
+              AND *IN01 = *OFF;                           
+                                                          
+              S3PBN = W0PBN;                              
+              S2INPUT = 'Y';                              
+                                                          
+              EXFMT ADDDDREC;                             
+                                                          
+              DFPBN = S3PBN;                              
+              DFCNTRY = S3CNTRY;                          
+              DFGMAB = S3GMAB;                            
+              DFACB = S3ACB;                              
+              DFACS = S3ACS;                          
+              DFACX = S3ACX;                          
+              DFACTYP = S3ACTYP;                      
+              DFACNAME = S3ACNAME;                    
+                                                      
+              IF *IN01 = *OFF;                        
+              WRITE DDACMSR;                          
+              ENDIF;                                  
+                                                      
+          ENDIF;                                      
+         ENDSR;                                       
+     /END-FREE                                        
+     /FREE                                            
+         BEGSR CHANGESR;                              
+         ENDSR;                                       
+     /END-FREE                                        
+    C                                                 

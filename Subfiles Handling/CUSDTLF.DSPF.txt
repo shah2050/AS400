@@ -1,0 +1,145 @@
+     A                                      DSPSIZ(24 80 *DS3)                      
+     A          R CUSSFL01                  SFL                                     
+     A            DFCNTRY   R        O 10  5REFFLD(DDACMSR/DFCNTRY *LIBL/DDACMS-    
+     A                                      P)                                      
+     A                                      COLOR(WHT)                              
+     A            DFGMAB    R        O 10  9REFFLD(DDACMSR/DFGMAB *LIBL/DDACMSP)    
+     A                                      COLOR(WHT)                              
+     A            DFACB     R        O 10 16REFFLD(DDACMSR/DFACB *LIBL/DDACMSP)     
+     A                                      COLOR(WHT)                              
+     A            DFACS     R        O 10 22REFFLD(DDACMSR/DFACS *LIBL/DDACMSP)     
+     A                                      COLOR(WHT)                              
+     A            DFACX     R        O 10 31REFFLD(DDACMSR/DFACX *LIBL/DDACMSP)     
+     A                                      COLOR(WHT)                              
+     A            DFACTYP   R        O 10 38REFFLD(DDACMSR/DFACTYP *LIBL/DDACMS-    
+     A                                      P)                                      
+     A                                      COLOR(WHT)                              
+     A            DFACNAME  R        O 10 42REFFLD(DDACMSR/DFACNAME *LIBL/DDACM-   
+     A                                      SP)                                    
+     A                                      COLOR(WHT)                             
+     A          R CUSCTL01                  SFLCTL(CUSSFL01)                       
+     A                                      CF01(01 'EXIT')                        
+     A                                      CF05(05 'REFRESH')                     
+     A                                      OVERLAY                                
+     A                                      PUTRETAIN                              
+     A  50                                  SFLDSP                                 
+     A  50                                  SFLDSPCTL                              
+     A N50                                  SFLCLR                                 
+     A  50                                  SFLEND(*MORE)          
+     A                                      SFLSIZ(9999)           
+     A                                      SFLPAG(0004)           
+     A                                  1  3DATE                   
+     A                                      EDTCDE(Y)              
+     A                                  1 14'Cutomer Maintenance'  
+     A                                      COLOR(WHT)             
+     A                                      DSPATR(UL)             
+     A                                  1 36USER                   
+     A                                      DSPATR(HI)             
+     A                                      DSPATR(HI)      
+     A                                      COLOR(BLU)      
+     A                                  1 48TIME            
+     A                                  3  5'Maint Code: '  
+     A            S1MNCD         1A  I  3 18COLOR(WHT)      
+     A                                      DSPATR(UL)      
+     A                                  3 26'PBN :'         
+     A            S1PBN         10S 0B  3 34COLOR(WHT)      
+     A                                      DSPATR(UL)      
+     A                                  4  5'Cust Type :'   
+     A            S1CUSTYP       3A  O  4 18COLOR(WHT)      
+     A                                      DSPATR(UL)      
+     A                                  4 26'Nat :'         
+     A            S1NAT          2A  O  4 34COLOR(WHT)      
+     A                                      DSPATR(UL)      
+     A                                  5  5'LANG :'        
+     A            S1LANG         1A  O  5 14COLOR(WHT)      
+     A                                      DSPATR(UL)      
+     A                                  5 18'PIN:'          
+     A            S1PIN          6S 0O  5 25COLOR(WHT)      
+     A                                      DSPATR(UL)      
+     A                                  5 34'PHONE:'              
+     A            S1PHONE       10S 0O  5 43COLOR(WHT)            
+     A                                      DSPATR(UL)            
+     A                                  6  5'Charges:'            
+     A            S1CHARG        3A  O  6 16COLOR(WHT)            
+     A                                      DSPATR(UL)            
+     A                                  6 23'Expat/Non-Expat:'    
+     A            S1EXPAT        1A  O  6 42COLOR(WHT)            
+     A                                      DSPATR(UL)            
+     A                                  9  4'Ctry'                
+     A                                  9  9'Group'                   
+     A                                  9 16'Branc Serial  Suffix'    
+     A                                  8 16'{account Information}'   
+     A                                      COLOR(WHT)                
+     A                                  9 38'Typ'                     
+     A                                  9 42'Account Name'            
+     A          R FOOTER                                              
+     A                                      OVERLAY                   
+     A                                 22  6'F1 - EXIT'               
+     A                                 22 21'F5 - REFRESH'            
+     A          R CUSMAIN                                        
+     A                                      CF01(01 'EXIT')      
+     A                                  1  3DATE                 
+     A                                      EDTCDE(Y)            
+     A                                  1 14'Cutomer Maintenance'
+     A                                      COLOR(WHT)           
+     A                                      DSPATR(UL)           
+     A                                  1 36USER                 
+     A                                      DSPATR(HI)           
+     A                                      COLOR(BLU)           
+     A                                  1 48TIME                 
+     A                                  3  5'Maint Code: '       
+     A            S1MNCD         1A  I  3 18COLOR(WHT)           
+     A                                      DSPATR(UL)           
+     A                                  3 26'PBN :'              
+     A            S1PBN         10S 0I  3 34COLOR(WHT)           
+     A                                      DSPATR(UL)           
+     A            S1MSG         25   O 13  8COLOR(RED)           
+     A          R ADDEBREC                                       
+     A                                      WINDOW(4 20 15 40)                    
+     A                                      CF01(01 'EXIT')                       
+     A                                  2  2'Name:'                               
+     A            S2NAME        30A  I  2  9COLOR(WHT)                            
+     A                                  3  2'cus Type:'                           
+     A            S2CUSTYP       3A  I  3 14COLOR(WHT)                            
+     A                                  3 23'NAT:'                                
+     A            S2NAT          2A  I  3 30COLOR(WHT)                            
+     A                                  4  2'Language:'                           
+     A            S2LANG         1A  I  4 14COLOR(WHT)                            
+     A                                  5  2'Pin:'                                
+     A                                  5 19'Phone:'                              
+     A                                  1  5'Add Record to EBCUSTP file'          
+     A                                  6  2'Charge:'                             
+     A            S2CHARG        3A  I  6 12COLOR(WHT)                            
+     A                                  7  2'Expat:'                              
+     A            S2EXPAT        1A  I  7 11COLOR(WHT)                            
+     A            S2PIN          6S 0I  5  9COLOR(WHT)                            
+     A            S2PHONE       10S 0I  5 28COLOR(WHT)                            
+     A                                 11  2'Customer in DDACMSP file as well?'   
+     A                                 10  2'Do You want to add record for this- 
+     A                                      -'                                   
+     A            S2INPUT        1   I 11 37COLOR(BLU)                           
+     A            S2MSG         25   O 13  8COLOR(RED)                           
+     A                                 14  3'F1 - EXIT'                          
+     A          R ADDDDREC                                                       
+     A                                      CF01(01 'EXIT')                      
+     A                                      WINDOW(4 15 15 40)                   
+     A                                  1  8'ADD DD account Records'             
+     A                                  2  3'PBN:'                               
+     A            S3PBN         10S 0O  2 10                                     
+     A                                  3  3'Country: '                          
+     A            S3CNTRY        2A  I  3 15                                     
+     A                                  3 21'Group: '                            
+     A            S3GMAB         4A  I  3 32                                     
+     A                                  4  3'Account Branch:'                    
+     A            S3ACB          3S 0I  4 21                                     
+     A                                  5  3'Account Serial:'                    
+     A            S3ACS          6S 0I  5 21                                     
+     A                                  6  3'Account Suffix:'          
+     A            S3ACX          3S 0I  6 21                           
+     A                                  7  3'Acc Product type:'        
+     A            S3ACTYP        2A  I  7 23                           
+     A                                  8  3'Account Name:'            
+     A            S3ACNAME      15A  I  8 19                           
+     A            S3MSG         25A  O 12  2COLOR(RED)                 
+     A                                 14  2'F1 -EIXT'                 
+
