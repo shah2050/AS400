@@ -1,0 +1,130 @@
+     H*NODEUBIO                                                        
+     FSFLSQL    CF   E             workstn SFILE(SFL01:RRN)            
+     FEBCUSTP   IF   E           K DISK                                
+     D                                                                 
+     DDATADS           DS                                              
+     DS1PBN                          10S 0                             
+     DS1NAME                         30A                               
+     D                                                                 
+     DDATADS1          DS                                              
+     DS2PBN                                LIKE(PCPBN)                 
+     DS2NAME                               LIKE(PCNAME)                
+     DS2CUSTTYP                            LIKE(PCCUSTTYP)             
+     DS2NAT                                LIKE(PCNAT)                 
+     DS2LANG                               LIKE(PCLANG)                
+     DS2PIN                                LIKE(PCPIN)                 
+     DS2PHONE                              LIKE(PCPHONE)               
+     DS2CHARGE                             LIKE(PCCHARGE)              
+     DS2EXPAT                              LIKE(PCEXPAT)               
+     D                                                                 
+     D*S1PBN                                LIKE(PCPBN)               
+     D*S1NAME                               LIKE(PCNAME)              
+     DRRN              S              5S 0                            
+     C                                                                
+      /FREE                                                           
+         // dcl-f TSTSFLFM workstn sfile(SFL01:rrn) infDs(infdata)    
+          DOW *IN01 = *OFF;                                           
+                                                                      
+               WRITE FOOTER;                                          
+                                                                      
+           //Clear Subfile                                            
+               EXSR  CLEARSFL;                                        
+                                                                      
+           //Load  Subfile                                            
+               EXSR  LOADSFL;                                         
+                                                                      
+           //Display Subfile;                                         
+               IF RRN = 0;                                            
+                 *IN60 = *OFF;                                        
+               ELSE;                                                  
+5                *IN60 =*ON;                               
+               ENDIF;                                      
+               EXFMT SFLCTL01;                             
+                                                           
+               DOW *in01 = *off;                           
+               READC SFL01;                                
+               IF S1INPUT = '1';                           
+                  EXSR  LOADRECTOEDIT;                     
+                  EXFMT EDITREC;                           
+                  EXSR  UPDATEEBCUSTPRECORD;               
+                  S1INPUT = ' ';                           
+               ELSE;                                       
+                  LEAVE;                                   
+               ENDIF;                                      
+               ENDDO;                                      
+                                                           
+          ENDDO;                                           
+                                                           
+         *Inlr = *On;                                      
+      /END-FREE                                            
+      *                                                           
+      /FREE                                                       
+          BEGSR     CLEARSFL;                                     
+              *IN50 = *OFF;                                       
+              WRITE SFLCTL01;                                     
+              *IN50 =*ON;                                         
+          ENDSR;                                                  
+      /END-FREE                                                   
+      *                                                           
+      /FREE                                                       
+          BEGSR     LOADSFL;                                      
+                                                                  
+            EXEC SQL                                              
+              SET OPTION                                          
+                  COMMIT = *NONE;                                 
+                                                                  
+            EXEC SQL                                              
+              DECLARE C1 SCROLL CURSOR FOR SELECT PCPBN, PCNAME   
+                      FROM EBCUSTP;                               
+                                                                  
+           EXEC SQL                                              
+           OPEN C1;                                              
+                                                                 
+           EXEC SQL                                              
+             FETCH FIRST FROM C1 INTO :DATADS;                   
+                  RRN = 0;                                       
+                DOW SQLCODE = 0;                                 
+                     IF RRN > 9999;                              
+                     LEAVE;                                      
+                     ENDIF;                                      
+                     RRN = RRN+1;                                
+                     WRITE SFL01;                                
+                 EXEC SQL                                        
+                 FETCH NEXT FROM C1 INTO :DATADS;                
+                ENDDO;                                           
+                                                                 
+           EXEC SQL                                              
+           CLOSE C1;                                             
+                                                                 
+         ENDSR;                                                  
+     /END-FREE                                                               
+                                                                             
+     /FREE                                                                   
+         BEGSR LOADRECTOEDIT;                                                
+             //EXEC SQL                                                      
+               // SET OPTION COMMIT = *NONE;                                 
+               EXEC SQL                                                      
+                  SELECT PCPBN, PCNAME, PCCUSTTYP, PCNAT,                    
+                       PCLANG,PCPIN,PCPHONE,PCCHARGE,PCEXPAT                 
+                       INTO :DATADS1                                         
+                       FROM EBCUSTP WHERE PCPBN = :S1PBN;                    
+             //EXEC SQL                                                      
+         ENDSR;                                                              
+     /END-FREE                                                               
+                                                                             
+     /FREE                                                                   
+         BEGSR  UPDATEEBCUSTPRECORD;                                         
+             //EXEC SQL SET OPTION COMMIT = *ALL;                            
+                                                                             
+                  EXEC SQL                                                   
+                                                                               
+                   UPDATE EBCUSTP SET PCNAME = :S2NAME,                        
+                   PCCUSTTYP =:S2CUSTTYP, PCNAT =:S2NAT,                       
+                   PCLANG =:S2LANG, PCPIN =:S2PIN, PCPHONE =:                  
+                   S2PHONE, PCCHARGE =:S2CHARGE, PCEXPAT =:S2EXPAT             
+                   WHERE PCPBN =:S2PBN;                                        
+                                                                               
+              //EXEC SQL SET OPTION COMMIT = *NONE;                            
+          ENDSR;                                                               
+      /END-FREE                                                                
+     C                                                                         
