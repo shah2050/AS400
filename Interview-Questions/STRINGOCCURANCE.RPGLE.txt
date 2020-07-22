@@ -1,0 +1,38 @@
+     H                                                                                
+     F                                                                                
+     DSTRING           S             50A   INZ('THIS IS A TEST STRING TO FIND ')      
+     DSTRING1          S             50A   INZ('THIS IS A TEST STRING TO FIND ')      
+     DFSTRING          S              1A   INZ(*BLANKS)                               
+     DLEN1             S              5S 0                                            
+     DLEN2             S              5S 0                                            
+     DFND              S              5S 0                                            
+     C                                                                                
+      /FREE                                                                           
+       //RPG CODE;                                                                    
+          LEN1 = %LEN(%TRIM(STRING));                                                 
+          DOU FND  = %LEN(STRING);                                                    
+          FND = %SCAN('S':STRING:FND+1);                                              
+          IF FND = 0;                                                                 
+          LEAVE;                                                                      
+          ENDIF;                                                                      
+          STRING = %REPLACE('': STRING:FND:1);                                        
+          ENDDO;                                                                      
+        LEN2 = %LEN(%TRIM(STRING));                                           
+        DSPLY %CHAR(LEN1-LEN2);                                               
+                                                                              
+     //SQL CODE;                                                              
+        EXEC SQL SET OPTION COMMIT = *NONE;                                   
+                                                                              
+        EXEC SQL                                                              
+                                                                              
+        SET   LEN2=LENGTH(REPLACE(STRING1,'S',''));                           
+        DSPLY %CHAR(LEN1-LEN2);                                               
+                                                                              
+        // IF it's database file then                                         
+        // SELECT LENGTH(TRIM(PCNAME)) - LENGTH(REPLACE(TRIM(PCNAME), 'A',    
+        // '')) AS D_Count FROM EBCUSTP WHERE PCPBN=1000000001                
+                                                                              
+                                                                              
+     *INLR = *ON;                                                             
+    /END-FREE                                                                 
+   C                                                                          
