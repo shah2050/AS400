@@ -1,0 +1,103 @@
+> header Spec (rpg)                  free formate
+HDftActGrp(*no) >                      
+Ctl-Opt DftActGrp(*no)
+
+>File Declartion
+FTESTPF    IF     E            DISK
+Dcl-F        Testpf  Disk;
+
+FTESTPF   uF     E        K DISK
+Dcl-F        Testpf    Disk     keyed   Usage(*Update);
+Dcl-F        Testpf    Disk     keyed   Usage(*Delete);
+
+FTESTPF   O      E             DISK
+Dcl-F        Testpf    Disk     Usage(*Output);
+
+FTESTPF    IF A  E        K DISK
+Dcl-F        Testpf    Disk     Usage(*Output);
+
+FTESTFILE      CF     E           WORKSTN
+Dcl-F Testfile      workstn;   (Default usage of WORKSTN is input and output so no need to mentione)
+
+FTESTFILE      O        E           PRINTER
+Dcl-F  testfile  Printer;     (Default usage of Printer is output so no need to mentione)
+
+Vraiable declartion
+Dcl-s  String            Char(10);
+Dcl-s  Num1            Zoned(7:0);
+Dcl-s  Num2            Packed(7:2);
+Dcl-s  Num3            Int(10);
+Dcl-s  Date1           Date;
+Dcl-s  Time             Timestamp;
+Dcl-s  Indicator       IND;
+Dcl-s  PI                   3.14;      --THIS IS CONSTANT
+
+
+
+//RPG Non free formate below is going to be converted to fully Free formate.
+D ContactInfo_T   DS                    Template    --- this is normal data structure.
+D     Mobile                       10P 0
+D     Email                          50
+*
+D Studentlnfo         DS                    INZ Qualified     -- This is a nested Datastructure.
+D FullName                       30A 
+D     FirstName                 15A     Overlay(Fullname:1)
+D     LastName                  15A    Overlay(Fullname:16)
+D Age                                    3P 0  
+D Contactlnfo                                 LikeDS(ContactInfo_T)
+D* 
+D GenericDate   DS         Qualified
+D     Year                       4A
+D                                    1A                       --This is for Separator 
+D     Month                    2A
+D                                    1A                       --This is for Separator 
+D     Day                        2A
+D* 
+/Free 
+	Studentlnfo.FirstName = 'Mohammed'; 
+	Studentlnfo.LastName = 'Yusuf'; 
+	Studentlnfo.Age = 29; 
+	Studentlnfo.Contactlnfo.Mobile = 9876543210; 
+	*Inlr = *On; 
+/End-Free 
+
+
+//To write in complete free formate we need to highlight **free at first line of the code on the top.
+**FREE
+
+Dcl-DS   ConatactInfo_T           Template;
+	Mobile	Packed(10);
+	Email	Char(50);
+End-DS;
+
+Dcl-DS   StudentInfo       INZ Qualified;
+	FullName		Char(30);
+	      FirstName	Char(15) Pos(1);
+	      LastName	Char(15) Pos(16);
+	Age		packed(3);
+	ContactInfo	LikeDS(ContactInfo_T);
+End-DS;
+
+Dcl-DS  GenericDate            Qualified;
+	Year             char(4);
+                  *N                char(1);                          --This is for Separator;
+	Month          char(2);
+                  *N                char(1);                          --This is for Separator;
+	Day              char(2);
+End-DS;
+
+
+Studentlnfo.FirstName = 'Mohammed'; 
+Studentlnfo.LastName = 'Yusuf'; 
+Studentlnfo.Age = 29; 
+Studentlnfo.Contactlnfo.Mobile = 9876543210; 
+
+//Date Display
+GenericDate='2020-07-07';
+DSPLY ('Year:' + Year);
+DSPLY ('M:' + Year);
+DSPLY ('Year:' + Year);
+
+
+*Inlr = *On; 
+

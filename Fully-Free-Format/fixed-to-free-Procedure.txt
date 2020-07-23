@@ -1,0 +1,126 @@
+//Example 1 
+H DftActGrp(*no)
+D TestPR           PR
+   
+    /Free
+	TestPR();
+	*INLR = *ON;
+    /End-free
+
+    /Free
+PTESTPR           B
+	    /Free
+		DSPLY 'Inside Procedure';
+	    /End-free    	
+PTESTPR           E	
+    /End-free
+
+
+
+**Free
+Dcl-Ctl   DftActGrp = *no;
+Dcl-PR   TESTPR           PR      END-PR;
+
+TESTPR();
+*INLR=*ON;
+
+DCL-PROC     TESTPR;
+	DSPLY 	'Inside Procedure';
+END-PROC;
+
+
+//Example 2 
+H DftActGrp(*no)
+D TestPR           PR
+D                                 10
+D*
+D  Name            s        10A
+   
+    /Free
+	Name ='SHAHALAM'
+	TestPR(Name);
+	*INLR = *ON;
+    /End-free
+
+    /Free
+PTESTPR           B
+D                          PI
+D NAME                          10A;
+
+	    /Free
+		DSPLY  ( 'Hello' + Name);
+	    /End-free    	
+PTESTPR           E	
+    /End-free
+
+
+
+**Free
+Dcl-Ctl   DftActGrp = *no;
+Dcl-PR   TESTPR           PR;
+	*N                              CHAR(10);
+END-PR;
+
+Dcl-s Name            s                     char(10);
+
+Name='shahalam'
+TESTPR(Name);
+*INLR=*ON;
+
+DCL-PROC     TESTPR;
+	Dcl-PI    TESTPR;
+	           Name                 CHAR(10);       
+	END-PI;            
+	DSPLY 	'Inside Procedure';
+END-PROC;
+
+
+//Example 3 Recieve parameter;
+
+H DftActGrp(*no)
+D TestPR           PR      50
+D                                    10
+D*
+D  Name            s         10
+D  Return           s         50
+   
+    /Free
+	Name ='SHAHALAM'
+	Return = TestPR(Name);
+	Dsply Return;
+	*INLR = *ON;
+    /End-free
+
+    /Free
+PTESTPR           B
+D                          PI          50
+D NAME                           10
+
+	    /Free
+		return  ( 'Hello' + Name);
+	    /End-free    	
+PTESTPR           E	
+    /End-free
+
+
+**Free
+Dcl-Ctl   DftActGrp = *no;
+
+Dcl-PR   TESTPR           PR               char(50) ;
+	*N                              CHAR(10);
+END-PR;
+
+Dcl-s Name            s                     char(10);
+Dcl-s Return           s                     char(50);
+
+Name='shahalam'
+return = TESTPR(Name);
+dsply return;
+*INLR=*ON;
+
+DCL-PROC     TESTPR;
+	Dcl-PI    TESTPR       Char(50);
+	           Name                 CHAR(10);       
+	END-PI;            
+	Return ('Hello' +Name);
+END-PROC;
