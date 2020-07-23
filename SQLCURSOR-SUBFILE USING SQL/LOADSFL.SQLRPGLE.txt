@@ -37,7 +37,7 @@
                IF RRN = 0;                                            
                  *IN60 = *OFF;                                        
                ELSE;                                                  
-5                *IN60 =*ON;                               
+                 *IN60 =*ON;                               
                ENDIF;                                      
                EXFMT SFLCTL01;                             
                                                            
