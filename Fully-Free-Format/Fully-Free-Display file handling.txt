@@ -1,0 +1,117 @@
+**FREE                                                      
+      CTL-OPT DFTACTGRP(*No); 
+                              
+      DCL-F Display   WORKSTN SFILE(DSPSFL:RRN);            
+                                                            
+      DCL-S RRN   INT(5);    
+                               
+      DCL-DS DATADS;                                        
+          PCPBN INT(10);                                    
+          PCCUSTTYP CHAR(3);                                
+          PCNAT CHAR(2);                                    
+          PCNAME CHAR(30);                                  
+      END-DS;                                               
+                                                            
+                                                            
+     // Main Program Strarts/                               
+                                                            
+        DOW *IN01 = *OFF;    
+                               
+           EXSR CLEARSFL;                                   
+                                                            
+           EXSR LOADSFL;                                    
+                                                 
+           EXSR DISPLAYSFL;                      
+                                                 
+                                                 
+        ENDDO;                                   
+                                                 
+      *INLR = *ON;                               
+     // Main Routine ENDS/   
+                   
+       //                                        
+           BEGSR CLEARSFL;                       
+                 *IN50 = *OFF;                             
+                 WRITE DSPSFLCTL;                          
+                 *IN50 = *ON;                              
+                                                           
+           ENDSR;       
+                                   
+       //                                                  
+           BEGSR LOADSFL;                                  
+              EXEC SQL SET OPTION COMMIT= *NONE;           
+              EXEC SQL                                                                
+                DECLARE C1 SCROLL CURSOR FOR                                          
+                    SELECT PCPBN, PCCUSTTYP, PCNAT, PCNAME FROM ebcustp  ;            
+                                                                                      
+              EXEC SQL                                                                
+                   OPEN C1;                                                           
+              EXEC SQL                                                                
+                FETCH FROM C1 INTO:DATADS;                                            
+                                                                                      
+                  RRN = 0;                                                            
+             DOW SQLCOD = 0 ;                                      
+                 RRN = RRN +1;                                     
+                 IF RRN <= 9999;                                   
+                   WRITE DSPSFL;                                   
+                  ELSE;                                            
+                  LEAVE;                                           
+                 ENDIF;                                            
+             EXEC SQL                                              
+               FETCH NEXT FROM C1 INTO:DATADS;                     
+             ENDDO;                                                
+             EXEC SQL                              
+                  CLOSE C1;                        
+          ENDSR;    
+                               
+      //                                           
+          BEGSR DISPLAYSFL;                        
+                IF RRN = 0;                        
+                    *IN49 = *OFF;                  
+                  ELSE;                            
+                    *IN49 = *ON;                   
+                ENDIF;                                                  
+                    EXFMT DSPSFLCTL;           
+          ENDSR;                               
+
+
+
+Create Below display file before running the above Code in machine.
+
+     A                                      DSPSIZ(24 80 *DS3)                        
+     A          R DSPSFL                    SFL                                       
+     A                                      KEEP                                      
+     A                                      SFLNXTCHG                                 
+     A            PCCUSTTYP R        O  9 21REFFLD(EBCUSTR/PCCUSTTYP *LIBL/EBCU-      
+     A                                      STP)                                      
+     A            PCNAT     R        O  9 27REFFLD(EBCUSTR/PCNAT *LIBL/EBCUSTP)       
+     A            PCNAME    R        O  9 32REFFLD(EBCUSTR/PCNAME *LIBL/EBCUSTP)      
+     A            PCPBN     R        O  9  8REFFLD(EBCUSTR/PCPBN *LIBL/EBCUSTP)       
+     A            S1INPTX        1A  I  9  5                                          
+     A          R DSPSFLCTL                 SFLCTL(DSPSFL)                            
+     A                                      CF01(01 'EXIT')                           
+     A                                      CF05(05 'REFRESH')                        
+     A                                      CF12(12 'CANCLE/BACK')                    
+     A                                      OVERLAY                                   
+     A  49                                  SFLDSP                                    
+     A  50                                  SFLDSPCTL                                 
+     A N50                                  SFLCLR                                    
+     A  50                                  SFLEND(*MORE)                             
+     A                                      SFLSIZ(9999)                 
+     A                                      SFLPAG(0010)                 
+     A                                  1  2DATE                         
+     A                                      EDTCDE(Y)                    
+     A                                  1 17'Display Customers'          
+     A                                  1 39USER                         
+     A                                  1 52TIME                         
+     A                                  5  9'Filter Record: '            
+     A            S1INPT         4A  I  5 28COLOR(WHT)                   
+     A                                  8  5'X'                          
+     A                                  8  8'PBN'                        
+     A                                  8 32'Name'                       
+     A                                  8 21'TYP'                        
+     A                                  8 26'NATY'                       
+     A          R FOOTER                                                 
+     A                                 21  6'F1 - Exit'                  
+     A                                 21 21'F5 - Refresh'               
+     A                                 21 39'F12 - Cancle/Back'                 
