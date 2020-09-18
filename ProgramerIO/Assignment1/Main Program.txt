@@ -1,0 +1,127 @@
+     H*DFTACTGRP(*NO)                                           
+     H*NODEUBIO                                                 
+     FDSPSTUD   CF   E             workstn SFILE(SFL01:RRN)     
+     FSTUDENTPF IF   E           K DISK                         
+     D*                                                         
+     DDATADS           DS                                       
+     DS0NAME                         10A                        
+     DS0MARKS                         4S 0                      
+     DDATADS1          DS                                       
+     DW0MARKS                         4S 0                      
+     D*                                                          
+     DRRN              S              5S 0                      
+     D                                                          
+     DPROC_Perc        PR                                       
+     DNUM1_                           4S 0                      
+     DNUM2_                           4S 0                      
+     DNUM_RETURN_                     5S 2             
+     D                                                    
+     DProc_Percentile  PR                                 
+     DNUM1_                           4S 0                
+     DNUM2_                           4S 0                
+     DNUM_RETURN_                     5S 2                
+     D 
+     DNUM_RETURN       S              5S 2              
+     DNUM_RETURN1      S              5S 2              
+     DALLTOTAL         S              4S 0 INZ(300)     
+     DCountBel         S              4S 0              
+     DTotalStud        S              4S 0                                                                 
+     C                                         
+      /FREE                                    
+          DOW *IN01 = *OFF;                    
+                                               
+               WRITE FOOTER;                   
+                                               
+           //Clear Subfile                     
+               EXSR  CLEARSFL;                 
+                                               
+           //Load  Subfile                     
+               EXSR  LOADSFL;                  
+                                               
+           //Display Subfile;                  
+               IF RRN = 0;                     
+                 *IN49 = *OFF;                 
+               ELSE;                           
+                 *IN49 =*ON;                   
+               ENDIF;                          
+               EXFMT SFLCTL01;                 
+                                                  
+          ENDDO;                                  
+                                                  
+         *Inlr = *On;                             
+                                                                                   
+                                                  
+                                                  
+      // CLEAR SUBFIEL SUBROUTINE STARTS          
+                                      
+          BEGSR     CLEARSFL;                     
+              *IN50 = *OFF;                       
+              WRITE SFLCTL01;                     
+              *IN50 =*ON;                         
+          ENDSR;                                  
+                                            
+                                                  
+                                                  
+      // LOAD SUBFIEL SUBROUTINE STARTS           
+                                                    
+          BEGSR     LOADSFL;                                        
+                                                                    
+            EXEC SQL                                                
+              SET OPTION                                            
+                  COMMIT = *NONE;                                   
+                                                                    
+            EXEC SQL                                                
+              DECLARE C1 SCROLL CURSOR FOR SELECT SNAME,TOTALMKS    
+                      FROM STUDENTPF;                               
+                                                                    
+            EXEC SQL                                                
+            OPEN C1;                                                
+                                                                    
+            EXEC SQL                                                
+              FETCH FIRST FROM C1 INTO :DATADS;                     
+                   RRN = 0;                                         
+                 DOW SQLCODE = 0;                                   
+                      IF RRN > 9999;                                
+                      LEAVE;                                        
+                      ENDIF;                                             
+                      RRN = RRN+1;                                       
+                      PROC_Perc(S0MARKS:ALLTOTAL:NUM_RETURN);            
+                      S1NAME = S0NAME;                                   
+                      S1MARKS= S0MARKS;                                  
+                      S1PERC =%CHAR(%editw(NUM_RETURN:'   .  '));        
+                      EXSR   Percentile;                                 
+                      WRITE SFL01;                                       
+                  EXEC SQL                                               
+                  FETCH NEXT FROM C1 INTO :DATADS;                       
+                 ENDDO;                                                  
+                                                                         
+            EXEC SQL                                                     
+            CLOSE C1;                                                    
+                                                                         
+          ENDSR;                                                         
+                                                         
+                                                                         
+                                                                         
+                                                           
+          BEGSR     Percentile;                                          
+                                                                         
+                     EXEC SQL                                            
+                      SELECT COUNT(*) into : CountBel                    
+                             FROM STUDENTPF WHERE TOTALMKS< :S1MARKS;    
+                                                                         
+                     EXEC SQL                                            
+                      SELECT COUNT(*) into : TotalStud                      
+                             FROM STUDENTPF;                                
+                                                                            
+                      Proc_Percentile(CountBel:TotalStud:NUM_RETURN1);      
+                                                                            
+                      S1PERENTIL=%CHAR(%editw(NUM_RETURN1:'   .  '));       
+
+                      IF S1PERENTIL = *BLANKS;                              
+                         S1PERENTIL  ='000.00';                             
+                      ENDIF;                                                
+                                                                            
+                                                                            
+          ENDSR;                                                            
+                                                                            
+      /END-FREE                                                                      

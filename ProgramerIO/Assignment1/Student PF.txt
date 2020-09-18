@@ -1,0 +1,15 @@
+                                            UNIQUE                        
+     A          R STUDPFR                                                 
+     A*                                                                   
+     A            STUDID         3S         COLHDG('STUDID')              
+     A                                                                    
+     A            SNAME         10A         COLHDG('NAME ')               
+     A            TOTALMKS       4S         COLHDG('TOTAL MARKS')         
+     A            PHYSICS        3S         COLHDG('PHYSICS')             
+     A            CHEMISTRY      3S         COLHDG('CHEMISTY')            
+     A            MATHS          3A         COLHDG('MATHEMATICS')         
+     A                                                                    
+     A                                                                    
+     A          K STUDID                                                  
+     A                                                                    
+     A                                                                    

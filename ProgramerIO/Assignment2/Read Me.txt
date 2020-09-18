@@ -1,0 +1,15 @@
+Second Assignment (Duration 8-12  hrs)
+
+1. Create one financial transaction table having account no, Transaction date, Debit/Credit flag and Amount
+2. Create an RPG program to give count of total transaction, total Debit transaction, Total credit transaction of a particular account. Define Account no as I/P parameter and rest parm as O/P
+3. Clculate Account balance as of today for a particular account.
+4. Do same exercise using simple SQL statement as well.
+
+STEPS.
+1. Created DS structure as "InputParam" to call the programs and get the return value as 'DataStructure' Screen shot.
+2. Created Physical file TXNFILE, and Inserted record, you can see the records in 'Transaction File Data' screen shot. 
+3. Created RPGLE program to fullfil the requirement mentioned in the assignment. Program name create was TEST and you can see the coe in RPGLEPGM1, RPGLEPGM2  Screen shot.
+4. Created sql query similar to RPGLE program and same can be seen in the SQL Groupin of Data screen shot. 
+5. Based on that sql statment created SQLRPGLE program named TESTSQL, Screenshot for the same are SQLRGPLE-1, SQLRGPLE-2, SQLRGPLE-3.
+6. created on Call program to call both the programs to check the output refer 'Call Program' screen shot.
+7. Results for the both programs can be seen in the 'RPGLE PGM RESULT' and 'SQLRPLE PGM Result'.

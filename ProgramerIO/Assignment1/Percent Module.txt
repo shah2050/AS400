@@ -1,0 +1,18 @@
+     H NOMAIN                                                                 
+     F*                                                                       
+     PProc_Perc        B                   EXPORT                             
+     D                 PI             5S 2                                    
+     D MObtained                      4S 0                                    
+     D TotalMarks                     4S 0                                    
+     D Percentage                     5S 2                                    
+                                                                              
+      /FREE                                                                   
+           //Calculate Percentage value based on the input values.            
+                                                                                                                                                           
+                Percentage = *ZEROS;                                          
+                Percentage = MObtained*100/TotalMarks;                        
+                                                      
+           Return Percentage;                         
+                                                      
+      /END-FREE                                       
+     PProc_perc        E                              

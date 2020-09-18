@@ -1,0 +1,33 @@
+     A                                      DSPSIZ(24 80 *DS3)                     
+     A          R SFL01                     SFL                                    
+     A                                      KEEP                                   
+     A                                      SFLNXTCHG                              
+     A            S1NAME        10A  O  8  7                                       
+     A            S1MARKS        4S 0O  8 21                                       
+     A            S1PERC         6A  O  8 32                                       
+     A            S1PERENTIL     6A  O  8 42                                       
+     A                                                                             
+     A          R SFLCTL01                  SFLCTL(SFL01)                          
+     A                                      SFLSIZ(9999)                           
+     A                                      SFLPAG(0010)                           
+     A                                      CF01(01 'EXIT')                        
+     A                                      CF05(05 'REFRESH')                     
+     A                                      CF12(12 'CANCLE/BACK')                 
+     A                                      OVERLAY                                
+     A  49                                  SFLDSP                                 
+     A  50                                  SFLDSPCTL                              
+     A N50                                  SFLCLR                                 
+     A  50                                  SFLEND(*MORE)                     
+     A                                  1  2DATE                              
+     A                                      EDTCDE(Y)                         
+     A                                  1 17'Display Result'                  
+     A                                  1 39USER                              
+     A                                  1 52TIME                              
+     A                                  7  8'StudName'                        
+     A                                  7 19'TotalMark'                       
+     A                                  7 33'%'                               
+     A                                  7 39'Percentile'                      
+     A          R FOOTER                                                      
+     A                                 21  6'F1 - Exit'                       
+     A                                 21 21'F5 - Refresh'                    
+     A                                 21 39'F12 - Cancle/Back'               

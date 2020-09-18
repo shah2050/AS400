@@ -1,0 +1,20 @@
+     H NOMAIN                                                                    
+     F*                                                                          
+     PProc_Percentile  B                   EXPORT                                
+     D                 PI             5S 2                                       
+     D CountBel                       4S 0                                       
+     D TotalStud                      4S 0                                       
+     D Percentile                     5S 2                                       
+                                                                                 
+      /FREE                                                                      
+           //Calculate Percentage value based on the input values.               
+                                                                                 
+                                                                                
+                Percentile = *ZEROS;                                             
+                Percentile = CountBel*100/(TotalStud-1) ;                        
+                                                 
+           Return Percentile;                    
+                                                 
+      /END-FREE                                  
+                                                 
+     PProc_Percentile  E                         

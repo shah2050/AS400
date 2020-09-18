@@ -1,0 +1,16 @@
+First Assignment (Duration 16-20 hrs)
+Here is the requirement for this project. 
+1. Create a service program/simple RPGLE Program. In this I need 2 different modules . 1 module will calculate the percentage of students based on marks received and total marks. Second module will give Percentile (not percentage) based on marks.
+2. Create an screen to display results.
+3. On Main subfile prove option to print results.
+
+
+Steps.
+1. I have created two different modules to calculate the Percent and Percentile with same name file name is given for your reference. 
+2. Created service program STUDSRVPGM with attaching above two modules and with Export all.
+CRTSRVPGM SRVPGM(STUDSRVPGM) MODULE(PERCENT PERCENTILE) EXPORT(*ALL) 
+3. Created physical file STUDENTPF and inserted records, please check the word document for your information.
+4. Created Display file DSPSTUD, check the code with the name Display file.
+5. Created main program to handle the request. Here program I created was SQLRPGLE so first created its module and then creat pgm with CMD CRTPGM and attach the service program STUDSERVPGM as below. 
+CRTPGM PGM(DSPSTUDENT) MODULE(DSPSTUDENT) BNDSRVPGM((STUDSRVPGM))   
+6. Call the program and See the result. Attached screen shot of the Subfile screen in the word document, for your reference.    
